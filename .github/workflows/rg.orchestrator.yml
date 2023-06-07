@@ -8,22 +8,22 @@ on:
 
 jobs:
   deploy-dev-rg:
-  environment: dev
-  runs-on: ubuntu-latest
-  steps:
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
 
-  # Log into Azure
-  - name: Login to Azure
-    uses: azure/login@v1
-    with:
-      creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # Log into Azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  - name: Create RG
-    uses: azure/CLI@v1
-    with:
-      azcliversion: 2.37.0
-      inlineScript: |
-        az group create \
-        --subscription ${{ secrets.SUB_ID }} \
-        --name "rg-${{ github.event.inputs.project_n }}-${{ github.event.inputs.location_1 }}-dev" \
-        --location ${{ github.event.inputs.location_1 }}
+    - name: Create RG
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.37.0
+        inlineScript: |
+          az group create \
+          --subscription ${{ secrets.SUB_ID }} \
+          --name "rg-${{ github.event.inputs.project_n }}-${{ github.event.inputs.location_1 }}-dev" \
+          --location ${{ github.event.inputs.location_1 }}
