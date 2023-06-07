@@ -1,7 +1,4 @@
 on:
-  push:
-    paths:
-    - '.github/workflows/rg.orchestrator.yml'
   workflow_dispatch: {}
     inputs:
       project_n:
@@ -24,6 +21,9 @@ on:
         - eastus2
         - westus
         - westus3
+  push:
+    paths:
+    - '.github/workflows/rg.orchestrator.yml'
 
 jobs:
   deploy-dev-rg:
