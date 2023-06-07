@@ -1,3 +1,5 @@
+name: Deploy Az RGs for a given project
+
 on:
   workflow_dispatch: {}
     inputs:
