@@ -1,2 +1,2 @@
-# Github to Azure Integration
+# Github - Azure Integration
 
