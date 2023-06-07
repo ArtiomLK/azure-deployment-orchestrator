@@ -2,6 +2,27 @@ name: Deploy Az RGs for a given project
 
 on:
   workflow_dispatch: {}
+    inputs:
+      project_n:
+        type: string
+        description: 'The name of the project'
+        required: true
+      location_1:
+        type: choice
+        description: 'The main region'
+        options:
+        - eastus
+        - eastus2
+        - westus
+        - westus3
+      location_2:
+        type: choice
+        description: 'The paired region'
+        options:
+        - eastus
+        - eastus2
+        - westus
+        - westus3
   push:
     paths:
     - '.github/workflows/rg.orchestrator.yml'
