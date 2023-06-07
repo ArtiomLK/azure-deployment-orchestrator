@@ -16,13 +16,15 @@ on:
         - eastus2
         - westus
         - westus3
+        - centralus
       location_2:
         type: choice
         description: 'The paired region'
         options:
-        - eastus
         - eastus2
+        - centralus
         - westus
+        - eastus
         - westus3
 
 jobs:
@@ -37,6 +39,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    # Create RG
     - name: Create RG
       uses: azure/CLI@v1
       with:
@@ -44,5 +47,93 @@ jobs:
         inlineScript: |
           az group create \
           --subscription ${{ secrets.SUB_ID }} \
-          --name "rg-${{ github.event.inputs.project_n }}-${{ github.event.inputs.location_1 }}-dev" \
-          --location ${{ github.event.inputs.location_1 }}
+          --name "rg-${{ inputs.project_n }}-dev-${{ inputs.location_1 }}" \
+          --location ${{ inputs.location_1 }}
+
+  deploy-qa-rg:
+    environment: qa
+    runs-on: ubuntu-latest
+    steps:
+
+    # Log into Azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # Create RG
+    - name: Create RG
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.37.0
+        inlineScript: |
+          az group create \
+          --subscription ${{ secrets.SUB_ID }} \
+          --name "rg-${{ inputs.project_n }}-qa-${{ inputs.location_1 }}" \
+          --location ${{ inputs.location_1 }}
+
+  deploy-stg-rg:
+    environment: stg
+    runs-on: ubuntu-latest
+    steps:
+
+    # Log into Azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # Create RG Region 1
+    - name: Create RG
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.37.0
+        inlineScript: |
+          az group create \
+          --subscription ${{ secrets.SUB_ID }} \
+          --name "rg-${{ inputs.project_n }}-stg-${{ inputs.location_1 }}" \
+          --location ${{ inputs.location_1 }}
+
+    # Create RG Region 2
+    - name: Create RG
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.37.0
+        inlineScript: |
+          az group create \
+          --subscription ${{ secrets.SUB_ID }} \
+          --name "rg-${{ inputs.project_n }}-stg-${{ inputs.location_2 }}" \
+          --location ${{ inputs.location_2 }}
+
+  deploy-prod-rg:
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+
+    # Log into Azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # Create RG Region 1
+    - name: Create RG
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.37.0
+        inlineScript: |
+          az group create \
+          --subscription ${{ secrets.SUB_ID }} \
+          --name "rg-${{ inputs.project_n }}-prod-${{ inputs.location_1 }}" \
+          --location ${{ inputs.location_1 }}
+
+    # Create RG Region 2
+    - name: Create RG
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.37.0
+        inlineScript: |
+          az group create \
+          --subscription ${{ secrets.SUB_ID }} \
+          --name "rg-${{ inputs.project_n }}-prod-${{ inputs.location_2 }}" \
+          --location ${{ inputs.location_2 }}
