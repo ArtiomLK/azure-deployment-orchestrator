@@ -1,7 +1,10 @@
 name: Deploy Az RGs for a given project
 
 on:
-  workflow_dispatch: {}
+  push:
+    paths:
+    - '.github/workflows/rg.orchestrator.yml'
+  workflow_dispatch:
     inputs:
       project_n:
         type: string
@@ -23,9 +26,6 @@ on:
         - eastus2
         - westus
         - westus3
-  push:
-    paths:
-    - '.github/workflows/rg.orchestrator.yml'
 
 jobs:
   deploy-dev-rg:
