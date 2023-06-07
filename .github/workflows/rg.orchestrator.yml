@@ -94,17 +94,6 @@ jobs:
           --name "rg-${{ inputs.project_n }}-stg-${{ inputs.location_1 }}" \
           --location ${{ inputs.location_1 }}
 
-    # Create RG Region 2
-    - name: Create RG
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.37.0
-        inlineScript: |
-          az group create \
-          --subscription ${{ secrets.SUB_ID }} \
-          --name "rg-${{ inputs.project_n }}-stg-${{ inputs.location_2 }}" \
-          --location ${{ inputs.location_2 }}
-
   deploy-prod-rg:
     environment: prod
     runs-on: ubuntu-latest
