@@ -1,9 +1,6 @@
 name: Deploy Az RGs for a given project
 
 on:
-  push:
-    paths:
-    - '.github/workflows/rg.orchestrator.yml'
   workflow_dispatch:
     inputs:
       project_n:
@@ -13,6 +10,7 @@ on:
       location_1:
         type: choice
         description: 'The main region'
+        required: true
         options:
         - eastus
         - eastus2
